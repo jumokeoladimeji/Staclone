@@ -10,13 +10,6 @@ module.exports = {
      * @returns {json} question - fetched question
      */
     get(req, res) {
-        // votedQuestion.findById(id).populate('user', 'username').populate('comments.creator').exec(function(err, votedQuestion) {
-
-            // Story.
-            // findOne({ title: 'Casino Royale' }).
-            // populate('author').
-            // exec(function (err, story) {
-
         Question.findById(req.params.questionId).populate('user').populate({path: 'answers'}).populate({path: 'votes'}).exec((err, question) => {
             if (err) {
                 return res.status(500).json({ data: 'error saving question:' + err })
@@ -30,8 +23,6 @@ module.exports = {
      * @param {object} response - response object served to the client
      * @returns {json} questions - questions fetched
      */
-
-    // Question.find({}).sort('-createDate').limit(5).exec(function(err, messages)
     getAll: function(req, res) {
         Question.find({}, (err, questions) => {
             if (err) {
@@ -49,7 +40,7 @@ module.exports = {
      * @returns {json} question - new question created
      */
     create(req, res) {
-            // Validate request
+        // Validate request
         if(!req.body) {
             return res.status(400).json({
                 data: "need to ask a question"
@@ -146,43 +137,6 @@ module.exports = {
             } 
         }
     },
-        /**
-     * @description - Upvotes or downvotes a question
-     * @param {object} request - request object received from the client
-     * @param {object} response - response object served to the client
-     * @returns {json} message, response or error
-     */
-    tuggleVote (req, res) {
-        const votedQuestion = req.question;
-        const voteToSave = req.body;
-        voteToSave.voter = req.user;
-        let hasVoted = false;
-        for (let i = 0; i < votedQuestion.votes.length; i++) {
-            if (req.user.id === votedQuestion.votes[i].user.toString()) {
-                hasVoted = true;
-                votedQuestion.votes.splice(i, 1);
-                break;
-            }
-        }
-        if (!hasVoted) {
-            const vote = new Vote(voteToSave)
-              
-            vote.save((err) => {
-                if (err) {
-                    return res.status(500).json({ data: 'error saving vote' })
-                }
-                votedQuestion.votes.push(savedVote);
-            })
-        } 
-        let voteString = hasVoted ? 'down' :
-            'up'        
-        votedQuestion.save((err) => {
-            if (err) {
-                return res.status(500).json({ data: `error ${voteString} voting question` })
-            } else {
-                return res.status(200).json({ data: `Question successfully ${voteString} voted` })
-            }
-        });
-    }
+
 
 }
