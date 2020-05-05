@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-// const db = require('./config/database');
+require('./config/db-connect');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
