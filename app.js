@@ -16,7 +16,7 @@ app.use((req, res, next)  => {
     next();
 });
 
-// require('./routes/question')(app);
+require('./routes/question')(app);
 require('./routes/user')(app);
 
 app.get("/", (req, res) => {

@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
  * Vote Schema
  */
 let VoteSchema = new Schema({
-  voter: { type: Schema.ObjectId, ref: 'User'},
-  created: {
-		type: Date,
-		default: Date.now
-	}
+  voter: { type: Schema.Types.ObjectId, ref: 'User'},
+  // created: {
+	// 	type: Date,
+	// 	default: Date.now
+	// }
 },
 { timestamps: true });
 
@@ -18,11 +18,8 @@ let VoteSchema = new Schema({
  * Answer Schema
  */
 let AnswerSchema = new Schema({
-  user: { type: Schema.ObjectId, ref: 'User'},
-  created: {
-		type: Date,
-		default: Date.now
-	}
+  user: { type: Schema.Types.ObjectId, ref: 'User'},
+  answer: { type: String, required: true },
 },
 { timestamps: true });
 
@@ -35,6 +32,7 @@ let QuestionSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User'},
     answers: [AnswerSchema],
     votes: [VoteSchema],
+    // fans: [{ type: Schema.Types.ObjectId, ref: 'Person' }]
 },
 { timestamps: true });
 
