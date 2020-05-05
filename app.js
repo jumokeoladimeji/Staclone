@@ -2,18 +2,13 @@ const express = require('express');
 const app = express();
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-require('./config/db-connect');
+require('./config/db');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
-
-app.get("/", (req, res) => {
-    res.json({ message: "Welcome to staclone." });
-});
   
-
 app.use((req, res, next)  => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
@@ -21,6 +16,12 @@ app.use((req, res, next)  => {
     next();
 });
 
+// require('./routes/question')(app);
+require('./routes/user')(app);
+
+app.get("/", (req, res) => {
+    res.json({ message: "Welcome to staclone." });
+});
 
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 app.listen(PORT, (err) => {
