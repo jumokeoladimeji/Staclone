@@ -137,6 +137,43 @@ module.exports = {
             } 
         }
     },
-
+    /**
+     * @description - Upvotes or downvotes a question
+     * @param {object} request - request object received from the client
+     * @param {object} response - response object served to the client
+     * @returns {json} message, response or error
+     */
+    tuggleVote (req, res) {
+        const votedQuestion = req.question;
+        const voteToSave = req.body;
+        voteToSave.voter = req.user;
+        let hasVoted = false;
+        for (let i = 0; i < votedQuestion.votes.length; i++) {
+            if (req.user.id === votedQuestion.votes[i].user.toString()) {
+                hasVoted = true;
+                votedQuestion.votes.splice(i, 1);
+                break;
+            }
+        }
+        if (!hasVoted) {
+            const vote = new Vote(voteToSave)
+              
+            vote.save((err) => {
+                if (err) {
+                    return res.status(500).json({ data: 'error saving vote' })
+                }
+                votedQuestion.votes.push(savedVote);
+            })
+        } 
+        let voteString = hasVoted ? 'down' :
+            'up'        
+        votedQuestion.save((err) => {
+            if (err) {
+                return res.status(500).json({ data: `error ${voteString} voting question` })
+            } else {
+                return res.status(200).json({ data: `Question successfully ${voteString} voted` })
+            }
+        });
+    }
 
 }
