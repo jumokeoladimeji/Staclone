@@ -23,6 +23,12 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to staclone." });
 });
 
+
+
+app.use('*', (req, res) => {
+    res.status(404).json({ data: 'Not found' });
+});
+
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 app.listen(PORT, (err) => {
   if (err) {
