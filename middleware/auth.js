@@ -69,8 +69,7 @@ module.exports = {
         }
         User.findById(decoded.userId).then((user) => {
           if (!user) { return response.sendStatus(401).send({message: 'Unauthorized'}); }
-          request.decoded = decoded;
-          request.decoded.role = user.role;
+          request.user = user;
           next();
         });
       });
