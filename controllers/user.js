@@ -18,21 +18,30 @@ module.exports = {
         const userToCreate = {
             fullName: userDetails.fullName,
             email: userDetails.email,
-            password: userDetails.password,
+            password: auth.hashPassword(userDetails.password),
         };
-        User
-        create(userToCreate, (err, createdUser) => {
+        User.findOne({email: userToCreate.email}, (err, user) => {
             if (err) {
-                return res.status(500).json({ data: 'error signing up user:' + err })
+                return res.status(500).json({ data: 'error signing in:' + err })
+            } 
+            if (user) {
+                return res.status(500).json({ data: 'user already exists:' + err })
             }
-              else {
-                return res.status(200).json({
-                    message: "User successfully signed up",
-                    data: createdUser, 
-                    token: auth.generateToken(createdUser)
-                })
-            }
-        })
+            const newUser = new User(userToCreate)
+            newUser
+            .save((err, createdUser) => {
+                if (err) {
+                    return res.status(500).json({ data: 'error signing up user:' + err })
+                }
+                else {
+                    return res.status(200).json({
+                        message: "User successfully signed up",
+                        data: createdUser, 
+                        token: auth.generateToken(createdUser)
+                    })
+                }
+            });
+        });
     },
     /**
      * @description - signs in a new user
@@ -41,19 +50,12 @@ module.exports = {
      * @returns {json} user - user details
      */
     signin(req, res) {
-        // const userDetails = req.body;
         const { email, password } = req.body;
-        // if (!userDetails.email) {
-        //     return res.status(422).send({ message: 'You must enter an email address.' });
-        // }
-        // if (!userDetails.password) {
-        //     return res.status(422).send({ message: 'You must enter a password.' });
-        // }
         User.findOne({email}, (err, user) => {
             if (err) {
                 return res.status(500).json({ data: 'error signing in:' + err })
             }
-            const validPassword = auth.validPassword(password, user.hashedPassword)
+            const validPassword = auth.validPassword(password, user.password)
             if(!validPassword) {
                 return res.status(400).json({
                     data: "Incorrect Password !"
@@ -66,5 +68,25 @@ module.exports = {
                 });
             }
         });
+    },
+
+    /**
+     * @description - searches for users by fullName
+     * @param {object} request - request object received from the client
+     * @param {object} response - response object served to the client
+     * @returns {json} user - list of users
+     */
+    search (req, res) {
+        const filter =  {   
+            fullName: { $regex : `.*${req.query.fullName}.*` } || ''
+        };
+    
+        User.find(filter, (err, users) => {
+            if (err) {
+                return res.status(500).json({ data: 'error getting questions:' + err })
+            } else {
+                return res.status(200).json({ data: users })
+            }
+        })
     },
 };
