@@ -38,6 +38,7 @@ const DownVoteSchema = new Schema({
 },
 { timestamps: true });
 
+QuestionSchema.index({query: 'text', tag: 'text', 'answers.answer': 'text'})
 
 module.exports = mongoose.model('Downvote', DownVoteSchema);
 module.exports = mongoose.model('Upvote', UpvoteSchema);

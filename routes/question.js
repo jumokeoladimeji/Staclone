@@ -7,16 +7,15 @@ module.exports = (app) =>  {
         .post(auth.verifyToken, questionController.create)
         .get(questionController.getAll);
     app.route('/api/v1/questions/:questionId') 
-        .get(auth.verifyToken,questionController.get)
+        .get(auth.verifyToken, questionController.questionByID, questionController.get)
     app.route('/api/v1/questions/:questionId/upvote') 
-        .put(auth.verifyToken, questionController.upvote)
+        .put(auth.verifyToken, questionController.questionByID, questionController.upvote)
     app.route('/api/v1/questions/:questionId/downvote') 
-        .put(auth.verifyToken, questionController.downvote)
+        .put(auth.verifyToken, questionController.questionByID, questionController.downvote)
     app.route('/api/v1/questions/:questionId/answer') 
-        .post(auth.verifyToken, questionController.addAnswer);
-    app.route('/api/v1/questions/filter')
+        .post(auth.verifyToken, questionController.questionByID, questionController.addAnswer);
+    app.route('/api/v1/questions')
         .get(questionController.search);
     // app.route('/api/v1/answers/filter')
     //     .get(questionController.searchAnswers);
-    app.param('questionId', questionController.questionByID);
 }
