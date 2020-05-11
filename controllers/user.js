@@ -77,11 +77,13 @@ module.exports = {
      * @returns {json} user - list of users
      */
     search (req, res) {
+        console.log(req.query, 'we')
         const filter =  {   
             fullName: { $regex : `.*${req.query.fullName}.*` } || ''
         };
     
         User.find(filter, (err, users) => {
+            console.log('what is users:::', users)
             if (err) {
                 return res.status(500).json({ data: 'error getting questions:' + err })
             } else {
