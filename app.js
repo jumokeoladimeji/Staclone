@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 
 
 app.use('*', (req, res) => {
-    res.status(404).json({ data: 'Not found' });
+    res.status(404).json({ data: 'Unknown URL' });
 });
 
 const PORT = parseInt(process.env.PORT, 10) || 3000;
