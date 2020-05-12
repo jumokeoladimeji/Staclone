@@ -13,4 +13,7 @@ let QuestionSchema = new Schema({
 },
 { timestamps: true });
 
+
+QuestionSchema.index({query: 'text', tag: 'text'});
+
 module.exports = mongoose.model('Question', QuestionSchema);

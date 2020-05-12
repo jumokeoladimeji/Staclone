@@ -22,7 +22,7 @@ module.exports = {
         };
         User.findOne({email: userToCreate.email}, (err, user) => {
             if (err) {
-                return res.status(500).json({ data: 'error signing in:' + err })
+                return res.status(500).json({ data: 'error signing up:' + err })
             } 
             if (user) {
                 return res.status(500).json({ data: 'user already exists:' + err })
@@ -82,11 +82,10 @@ module.exports = {
         };
     
         User.find(filter, (err, users) => {
-            console.log('what is users:::', users)
             if (err) {
-                return res.status(500).json({ data: 'error getting questions:' + err })
+                return res.status(500).json({ data: 'error getting users:' + err })
             } else {
-                return res.status(200).json({ data: users })
+                return res.status(200).json({ data: users });
             }
         })
     },

@@ -75,7 +75,7 @@ module.exports = {
             if (err) {
                 return res.status(500).json({ data: 'error saving question:' + err })
             }
-            return res.status(200).json(question)
+            return res.status(200).json({data: question})
         });
     },
       /**
@@ -103,7 +103,7 @@ module.exports = {
     create(req, res) {
         // Validate request
         if(!req.body) {
-            return res.status(400).json({
+            return res.status(422).json({
                 data: "need to ask a question"
             });
         }
@@ -397,22 +397,9 @@ module.exports = {
             if (err) {
                 return res.status(500).json({ data: 'error getting questions:' + err })
             } else {
-                // let foundQuestions = questions;
-                return res.status(200).json({ data: questions });
-
-                // Question.find().populate({
-                //     path: 'answers',
-                // }).exec((err, retQuestions) => {
-                //     const containsString = retQuestions.filter(question => question.answers.contains(req.query.search));
-                //     foundQuestions.concat(containsString);
-                //     return res.status(200).json({ data: foundQuestions });
-                // })
-
-               
+                return res.status(200).json({ data: questions }); 
             }
         })
-
-        // Question.aggregate([ { $match : { name : "dave" } } ]);
     },
     /**
      * Question middleware
