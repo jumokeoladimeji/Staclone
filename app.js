@@ -3,7 +3,7 @@ const app = express();
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
-// const openApiDocumentation = require('./openApiDocumentation');
+const openApiDocumentation = require('./open-api-doc');
 
 require('./config/db');
 
@@ -19,7 +19,7 @@ app.use((req, res, next)  => {
     next();
 });
 
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 require('./routes/question')(app);
 require('./routes/user')(app);
 
