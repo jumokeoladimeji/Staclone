@@ -77,7 +77,6 @@ module.exports = {
      * @returns {json} user - list of users
      */
     search (req, res) {
-        console.log(req.query, 'we')
         const filter =  {   
             fullName: { $regex : `.*${req.query.fullName}.*` } || ''
         };
