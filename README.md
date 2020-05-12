@@ -34,7 +34,7 @@
 | GET /api/v1/question/1  | question.get() | get single Question |
 | PUT /api/v1/questions/1/upvote   | question.upvote() | Upvote a Question|
 | PUT /api/v1/questions/1/downvote   | question.downvote() | Downvote a Question |
-| POST /api/v1/questions/1/answer   | question.addAnswer() | Answer a Question |
+| POST /api/v1/questions/1/answer   | question.addAnswer() | Answer a Question and notify the user |
 | GET /api/v1/filter   | question.search() | filter all Questions based on query e.g. `http://localhost:3000/api/v1/filter?search=javascript `|
 
 
