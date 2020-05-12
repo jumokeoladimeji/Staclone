@@ -2,6 +2,10 @@
 * A simple clone of Stackoverflow
 
 
+## Database Diagram
+This can be found in db-diagram.png
+
+
 ## Tools Used
 | **Dependency** | **Use** |
 |----------|-------|
