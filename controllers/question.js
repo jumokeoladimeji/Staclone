@@ -4,10 +4,10 @@ require('../models/downvote');
 require('../models/answer');
 
 const mongoose = require('mongoose')
-Question = mongoose.model('Question')
-Upvote = mongoose.model('Upvote');
-Downvote = mongoose.model('Downvote');
-Answer = mongoose.model('Answer');
+const Question = mongoose.model('Question')
+const Upvote = mongoose.model('Upvote');
+const Downvote = mongoose.model('Downvote');
+const Answer = mongoose.model('Answer');
 
 const sendEmail = require('../helpers/send-email');
 
@@ -394,6 +394,18 @@ module.exports = {
         Question.find(filter).populate({
             path: 'answers',
         }).exec((err, questions) => {
+            if (err) {
+                return res.status(500).json({ data: 'error getting questions:' + err })
+            } else {
+                return res.status(200).json({ data: questions }); 
+            }
+        })
+    },
+
+    searchAnswers (req, res) {
+        const match = { $match: {'answers.answer': { $regex : `.*${req.query.fullName}.*` } || '' }};
+
+        Question.aggregate([match]).exec((err, questions) => {
             if (err) {
                 return res.status(500).json({ data: 'error getting questions:' + err })
             } else {

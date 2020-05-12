@@ -23,7 +23,7 @@ This can be found in db-diagram.png
 
 ## HTTP ENDPOINTS
 ## User
-| **HTTP method** | **Service layer method** | **Actions** |
+| **HTTP Method** | **Method** | **Action** |
 | --- | --- | --- |
 | POST /api/v1/user/signup  | user.signup() | create new user|
 | GET /api/v1/user/signin  | user.signin() | user sigin |
@@ -31,7 +31,7 @@ This can be found in db-diagram.png
 
 
 ## Questions
-| **HTTP method** | **Service layer method** | **Actions** |
+| **HTTP method** | **Method** | **Action** |
 | --- | --- | --- |
 | POST /api/v1/questions   | question.create() | create new Question|
 | GET /api/v1/questions   | question.getAll() | get all Questions |

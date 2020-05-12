@@ -16,7 +16,7 @@ module.exports = (app) =>  {
         .post(auth.verifyToken, questionController.addAnswer);
     app.route('/api/v1/filter')
         .get(questionController.search);
-    // app.route('/api/v1/answers/filter')
-    //     .get(questionController.searchAnswers);
+    app.route('/api/v1/answers/filter')
+        .get(questionController.searchAnswers);
     app.param('questionId', questionController.questionByID);
 }
