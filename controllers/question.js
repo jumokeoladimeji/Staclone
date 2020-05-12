@@ -1,9 +1,13 @@
-require('../models/question')
+require('../models/question');
+require('../models/upvote');
+require('../models/downvote');
+
 const mongoose = require('mongoose')
 Question = mongoose.model('Question')
 Upvote = mongoose.model('Upvote');
 Downvote = mongoose.model('Downvote');
 Answer = mongoose.model('Answer');
+
 const sendEmail = require('../helpers/send-email');
 
 const removeUpvoteFromQuestionAndVote = (user, question, res, incrBy) => {
@@ -128,7 +132,7 @@ module.exports = {
             if (err) {
                 return res.status(500).json(err);
             }
-            return res.status(200).json({ data: updatedQuestion })
+                return res.status(200).json({ data: updatedQuestion })
             })
         })
     },
@@ -181,21 +185,18 @@ module.exports = {
             }
             if (!hasAnsweredBefore) {
                 const answer = new Answer(newAnswer)
-
                 answer.save((err) => {
                     if (err) {
                         return res.status(500).json({ data: 'error saving answer: ' + err })
                     }
-                  
-                    question.answers.push(answer._id);
-                    
-                    question.save((err) => {
-                        if (err) {
-                            return res.status(500).json({ data: 'error saving answer to question' })
-                        } else {
-                            const questionLink = `http://${req.headers.host}/api/v1/questions/${req.params.questionId}`;
-                            sendEmail.notify(res, req.user, questionLink, question);
-                        }
+                    Question.updateOne(
+                        {_id: req.params.questionId},{ $push:  {answers: answer}}
+                    ).then(() => {
+                        
+                        const questionLink = `http://${req.headers.host}/api/v1/questions/${req.params.questionId}`;
+                        sendEmail.notify(res, req.user, questionLink, question);
+                    }).catch(err => {
+                        return res.status(500).json({ data: `error upvoting question: ${err}` }) 
                     });
                 });
             } 
@@ -263,7 +264,7 @@ module.exports = {
                                         }
                                     }, (err) => {
                                         Question.updateOne({_id: questionId},{ $inc: { voteCount: 2 }}).then(() => {
-
+                                            votedQuestion.voteCount += 2;
                                             return res.status(200).json({ 
                                                 message: 'Question successfully upvoted',
                                                 data: votedQuestion })
@@ -356,10 +357,11 @@ module.exports = {
                                         }, (err) => {
 
                                             Question.updateOne({_id: req.params.questionId},{ $inc: { voteCount: -2 }}).then(() => {
-                                                            return res.status(200).json({ 
-                                                                message: 'Question successfully negated upvote',
-                                                                data: votedQuestion 
-                                                            });
+                                                votedQuestion.voteCount -= 2;
+                                                return res.status(200).json({ 
+                                                    message: 'Question successfully negated upvote and downvoted',
+                                                    data: votedQuestion 
+                                                });
                                             }).catch(err => {
                                                 return res.status(500).json({ data: `error upvoting question: ${err}` }) 
                                             });
@@ -389,24 +391,47 @@ module.exports = {
     search (req, res) {
         console.log('req.query', req.query)
 
-        const filter = {   
-            $text: { $search: `.*${req.query.search}.*` } 
-        };
+        // const filter = {   
+        //    $or: [ { $text: { $search: req.query.search }},
+        //    { answers: { answer: `.*${req.query.search}.* || ''`}}]
+        // };
 
+        const filter = { $text: { $search: req.query.search } };
     
-        Question.find(filter).populate('answers').exec((err, questions) => {
+
+        // 'status.text'
+
+        // const filter = {   
+        //     'answer': req.query.search
+        // };
+
+        const match = { 
+                "$or":[
+                    // { $text: { $search: req.query.search }},
+                    { "answers.answer": `.*${req.query.search}.*` },
+                    // { tag: `.*${req.query.search}.*` },
+                    // { 'answers.answer': `.*${req.query.search}.*` },
+
+                ] 
+            }
+    
+
+        console.log('filter', filter)
+        Question.find(filter).populate('answers').populate({ path: 'answers' }).exec((err, questions) => {
             if (err) {
                 return res.status(500).json({ data: 'error getting questions:' + err })
             } else {
                 return res.status(200).json({ data: questions })
             }
         })
+
+        // Question.aggregate([ { $match : { name : "dave" } } ]);
     },
     /**
      * Question middleware
     */
     questionByID (req, res, next, id) {
-        Question.findById(req.params.questionId).populate('user').populate('answers').exec((err, question) => {
+        Question.findById(req.params.questionId).populate('user').populate({ path: 'answers' }).exec((err, question) => {
             if (err) return next(err);
             if (!question) return next(new Error('Failed to load question ' + id));
             req.question = question;
