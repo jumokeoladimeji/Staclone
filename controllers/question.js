@@ -1,6 +1,7 @@
 require('../models/question');
 require('../models/upvote');
 require('../models/downvote');
+require('../models/answer');
 
 const mongoose = require('mongoose')
 Question = mongoose.model('Question')
@@ -70,7 +71,7 @@ module.exports = {
      * @returns {json} question - fetched question
      */
     get(req, res) {
-        Question.findById(req.params.questionId).populate('user').populate('answers').exec((err, question) => {
+        Question.findById(req.params.questionId).populate('user').populate({path: 'answers'}).exec((err, question) => {
             if (err) {
                 return res.status(500).json({ data: 'error saving question:' + err })
             }
@@ -389,39 +390,25 @@ module.exports = {
     },
 
     search (req, res) {
-        console.log('req.query', req.query)
-
-        // const filter = {   
-        //    $or: [ { $text: { $search: req.query.search }},
-        //    { answers: { answer: `.*${req.query.search}.* || ''`}}]
-        // };
-
         const filter = { $text: { $search: req.query.search } };
-    
-
-        // 'status.text'
-
-        // const filter = {   
-        //     'answer': req.query.search
-        // };
-
-        const match = { 
-                "$or":[
-                    // { $text: { $search: req.query.search }},
-                    { "answers.answer": `.*${req.query.search}.*` },
-                    // { tag: `.*${req.query.search}.*` },
-                    // { 'answers.answer': `.*${req.query.search}.*` },
-
-                ] 
-            }
-    
-
-        console.log('filter', filter)
-        Question.find(filter).populate('answers').populate({ path: 'answers' }).exec((err, questions) => {
+        Question.find(filter).populate({
+            path: 'answers',
+        }).exec((err, questions) => {
             if (err) {
                 return res.status(500).json({ data: 'error getting questions:' + err })
             } else {
-                return res.status(200).json({ data: questions })
+                // let foundQuestions = questions;
+                return res.status(200).json({ data: questions });
+
+                // Question.find().populate({
+                //     path: 'answers',
+                // }).exec((err, retQuestions) => {
+                //     const containsString = retQuestions.filter(question => question.answers.contains(req.query.search));
+                //     foundQuestions.concat(containsString);
+                //     return res.status(200).json({ data: foundQuestions });
+                // })
+
+               
             }
         })
 
