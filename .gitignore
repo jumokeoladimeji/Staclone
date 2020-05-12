@@ -4,3 +4,4 @@ reports
 .env
 coverage
 npm-debug.log
+.nyc_output/
