@@ -1,0 +1,294 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Staclone",
+		"_postman_id": "3228e542-0e20-97ad-fed9-26f57a44e788",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User SignUp",
+			"request": {
+				"url": "http://localhost:3000/api/v1/user/signup",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"password\": \"$590Lje234op\",\n \"fullName\": \"Tom Ford\",\n \"email\": \"tom@gmail.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User SignIn",
+			"request": {
+				"url": "http://localhost:3000/api/v1/user/signin",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"password\": \"$590Lje234op\",\n \"email\": \"tom@gmail.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "User Search",
+			"request": {
+				"url": {
+					"raw": "http://localhost:3000/api/v1/users/search?fullName=tom",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"search"
+					],
+					"query": [
+						{
+							"key": "fullName",
+							"value": "tom",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWI5MDJlNTdkM2IwNzZiN2E1YjQ5MDMiLCJpYXQiOjE1ODkxODMzMzYsImV4cCI6MTU4OTI2OTczNn0.PtQDdIBVM_ERpqt6OEmnxJKpiAap-_J6e25MRBd_MBw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"password\": \"wo32030233p\",\n \"fullName\": \"Egypt Lane\",\n \"email\": \"egypt@gmail.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Question Endpoint",
+			"request": {
+				"url": "http://localhost:3000/api/v1/questions",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWI5MDJlNTdkM2IwNzZiN2E1YjQ5MDMiLCJpYXQiOjE1ODkxODMzMzYsImV4cCI6MTU4OTI2OTczNn0.PtQDdIBVM_ERpqt6OEmnxJKpiAap-_J6e25MRBd_MBw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"query\": \"index of an array\",\n \"tag\": \"javascript\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Questions",
+			"request": {
+				"url": "http://localhost:3000/api/v1/questions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWI5MDJlNTdkM2IwNzZiN2E1YjQ5MDMiLCJpYXQiOjE1ODkxODMzMzYsImV4cCI6MTU4OTI2OTczNn0.PtQDdIBVM_ERpqt6OEmnxJKpiAap-_J6e25MRBd_MBw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"query\": \"index of an array\",\n \"tag\": \"javascript\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Question",
+			"request": {
+				"url": "http://localhost:3000/api/v1/questions/5eb9049e7d3b076b7a5b4904",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWI5MDJlNTdkM2IwNzZiN2E1YjQ5MDMiLCJpYXQiOjE1ODkxODMzMzYsImV4cCI6MTU4OTI2OTczNn0.PtQDdIBVM_ERpqt6OEmnxJKpiAap-_J6e25MRBd_MBw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"query\": \"index of an array\",\n \"tag\": \"javascript\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Upvote Question",
+			"request": {
+				"url": "http://localhost:3000/api/v1/questions/5eb9049e7d3b076b7a5b4904/upvote",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWI5MDJlNTdkM2IwNzZiN2E1YjQ5MDMiLCJpYXQiOjE1ODkxODMzMzYsImV4cCI6MTU4OTI2OTczNn0.PtQDdIBVM_ERpqt6OEmnxJKpiAap-_J6e25MRBd_MBw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"query\": \"index of an array\",\n \"tag\": \"javascript\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Downvote Question",
+			"request": {
+				"url": "http://localhost:3000/api/v1/questions/5eb9049e7d3b076b7a5b4904/downvote",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWI5MDJlNTdkM2IwNzZiN2E1YjQ5MDMiLCJpYXQiOjE1ODkxODMzMzYsImV4cCI6MTU4OTI2OTczNn0.PtQDdIBVM_ERpqt6OEmnxJKpiAap-_J6e25MRBd_MBw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"query\": \"index of an array\",\n \"tag\": \"javascript\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Answer A Question",
+			"request": {
+				"url": "http://localhost:3000/api/v1/questions/5eb9049e7d3b076b7a5b4904/answer",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWIxYjQ4NDc3NmYxNTM4ZmNlNWVhNTAiLCJpYXQiOjE1ODkyNTU5MDEsImV4cCI6MTU4OTM0MjMwMX0.JT0kogy5PSgb6ErtPW8Lhm2Z7Ra8VABSNZm3I4uVpCE",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"answer\": \"index of an array\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Question Search",
+			"request": {
+				"url": {
+					"raw": "http://localhost:3000/api/v1/filter?search=javascript",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "javascript ",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZWIxYjQ4NDc3NmYxNTM4ZmNlNWVhNTAiLCJpYXQiOjE1ODkyNTU5MDEsImV4cCI6MTU4OTM0MjMwMX0.JT0kogy5PSgb6ErtPW8Lhm2Z7Ra8VABSNZm3I4uVpCE",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"answer\": \"index of an array\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
