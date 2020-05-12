@@ -1,30 +1,31 @@
+require('dotenv').config()
+process.env.NODE_ENV = 'test';
+
+require('../../models/user')
+const mongoose = require('mongoose')
+User = mongoose.model('User')
 
 const chai = require('chai');
 const { expect } = chai;
 const bcrypt = require('bcryptjs');
 chai.use(require('chai-http'));
-const index = require('../../index');
-const db = require('../../database/models/index')
-const User = require('../../database/models').User;
-const auth = require('../../middleware/authentication');
 const faker = require('faker');
+
+const index = require('../../app');
+const auth = require('../../middleware/auth');
+const userController = require('../../controllers/user')
 
 
 const userData = { 
     fullName: faker.internet.userName(), 
     password: faker.internet.password(), 
-    email: faker.internet.email()};
-
-let adminToken;
+    email: faker.internet.email()
+};
 
 
 describe('User Controller',  () => {
-    after(() => {
     
-    });
-
     describe('Sign Up Function', () => {
-
         it('should create users', (done) => {
             chai.request(index)
                 .post('/api/v1/user/signup')
@@ -53,4 +54,22 @@ describe('User Controller',  () => {
             })
         });
     });
+
+    describe('User Search Function', () => {
+        it('should return an error when the user token is invalid', (done) => {
+            chai.request(index)
+            .get('/api/v1/users/search')
+            .set('authorization', `token`)
+            .then((res) => {
+                expect(res).to.have.status(401);
+                expect(res).to.be.json;
+                done();
+            })
+        });
+    });
+
+    // after((done) => {
+	// 	User.deleteMany().exec();
+	// 	done();
+	// });
 });

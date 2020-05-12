@@ -1,10 +1,11 @@
 require('dotenv').config()
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const dbURI = (process.env.NODE_ENV === 'test') ? process.env.MONGOLAB_TEST : process.env.MONGODB_URI;
 
-const db = process.env === 'test' ? process.env.MONGOLAB_AQUA_URI : process.env.MONGODB_URI
 const connect = () => mongoose.connect(
-  process.env.MONGODB_URI,
+  dbURI,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -18,11 +19,8 @@ const connect = () => mongoose.connect(
   console.log('error reconnecting to the db', error)
 });
 
-mongoose.connection
-  .on('error', err => {
-    console.log('error reconnecting to the db', err);
-  })
-  .on('disconnected', () => connect());
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "mongo connection error"));
   
 
 module.exports = connect();
