@@ -16,7 +16,6 @@ module.exports.notify =  (res, user, questionLink, question) => {
 
     const mailOptions = {
         from: process.env.email,
-        // chnage to user.email
         to: question.user.email,
         subject: 'Your Question On Staclone Has An Answer', 
         html: htmlBody,
@@ -24,8 +23,8 @@ module.exports.notify =  (res, user, questionLink, question) => {
 
     transporter.sendMail(mailOptions)
     .then(function (email) {
-        res.status(200).json({ success: true, msg: 'Mail sent' });
+        res.status(200).json({ data: 'successfully answered and Mail sent' });
     }).catch(function (error) {
-        res.status(200).json({ success: false, msg: error });
+        res.status(200).json({ data: 'successfully answered but with email error: ' + error });
     });
 };
