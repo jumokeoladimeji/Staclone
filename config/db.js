@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const mongoose = require('mongoose');
 
+const db = process.env === 'test' ? process.env.MONGOLAB_AQUA_URI : process.env.MONGODB_URI
 const connect = () => mongoose.connect(
   process.env.MONGODB_URI,
   {
