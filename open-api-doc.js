@@ -339,9 +339,7 @@ module.exports = {
               }
             }
           }
-        }
-      },
-      '/api/v1/question': {
+        },
         get: {
           tags: ['Questions'],
           description: 'Get All Questions',
@@ -408,6 +406,9 @@ module.exports = {
             }
           }
         }
+      },
+      '/api/v1/question': {
+
       },
       '/api/v1/question/:questionId': {
         get: {
